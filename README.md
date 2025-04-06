@@ -28,9 +28,7 @@ This tutorial outlines the implementation of on-premises Active Directory within
 
 - I will then create another VM called Client-1 which will run on Windows 11 OS and this will act as a workstation. My attempt will be to join Client-1 to the domain. My ultimate goal with this virtual machine is to be able to login successfully with the users we created in DC-1(Domain Controller). 
 
-<br><br><br>
-
-**Create the Domain Controller VM (Windows Server 2022) named “DC-1”**
+## Create the Domain Controller VM (Windows Server 2022) named “DC-1”
 
 What do we mean by Domain Controller? 
 
@@ -71,19 +69,19 @@ Lets first launch our Windows Server 2022 virtual machine to ensure a successful
 **Disable all the firewall settings**
 ![image](https://github.com/user-attachments/assets/2f926f97-3e9b-4cf7-a32c-22028b30b028)
 
-<br><br><br><br>
 
 
-**Create the Client VM (Windows 10) named “Client-1**
+## Create the Client VM (Windows 10) named “Client-1"
 
-Create the Windows 10 Virtual Machine 
--Assign to resource group Active Directory
--Name the VM Client-1
--Image: Windows 10 Pro
--2 vcpus(Virtual CPU’s) will be sufficient
--Create a username & password(be sure to document it for later)
--Ensure that it’s operating on the same Virtual Network we created earlier: Active Directory-VneT
--Click create virtual machine
+Create the Windows 10 Virtual Machine:
+
+- Assign to resource group Active Directory
+- Name the VM Client-1
+- Image: Windows 10 Pro
+- 2 vcpus(Virtual CPU’s) will be sufficient
+- Create a username & password(be sure to document it for later)
+- Ensure that it’s operating on the same Virtual Network we created earlier: Active Directory-VneT
+- Click create virtual machine
 
 **Important Step:** After the VM is created, set Client-1's DNS settings to DC-1's private IP address.
 
@@ -91,7 +89,7 @@ Our Client-1 virtual machine’s DNS server, which by default is the one offered
 
 To get started, on Azure, open Client-1's network settings, navigate to the DNS servers, and input the public IP of the DC-1 VM.
 
-**Configuring DNS settings for Client-1:**
+### Configuring DNS settings for Client-1
 
 <img width="476" alt="image" src="https://github.com/user-attachments/assets/9bb926d3-40f2-44c4-b28f-c96c4dd62b67" />
 
@@ -106,9 +104,7 @@ We can even run the command “ipconfig /all” on powershell to observe that th
 
 <h2>Deploying Active Directory</h2>
 
-**Part 1**
-
-**Install Active Directory**
+### Install Active Directory
 
 Login to DC-1 and install Active Directory Domain Services:
 - Open Server manager
@@ -120,14 +116,13 @@ Login to DC-1 and install Active Directory Domain Services:
 
 ![image](https://github.com/user-attachments/assets/d7c9cfe3-0875-48ef-875f-8b116e31f1bd)
 
-**Promote as a Domain Controller:**
+### Promote as a Domain Controller
 - Navigate to the notifications icon and hit “promote this server a domain controller”
 - Click Add a new forest
 - In root domain, input mydomain.com (can be anything you want)
 - Install
 
-
-**Create a domain admin user within the domain:**
+### Create a domain admin user within the domain
 - In Active Directory Users and Computers(AD UC), create an Organizational Unit(OU) called “_EMPLOYEES”
 - Create a new OU(Organizational Unit) called “_ADMINS”
 - Create a new employee named “Jane Doe” with the username of jane_admin and provide a password for that account. 
@@ -142,7 +137,7 @@ Login to DC-1 and install Active Directory Domain Services:
 <img width="452" alt="image" src="https://github.com/user-attachments/assets/17f30fe2-26d6-4b06-bb2f-57b8dc6b6854" />
 <br><br>
 
-**Join Client-1 to our domain(mydomain.com):**
+### Join Client-1 to our domain(mydomain.com)
 - Open settings , go to the About and open the advanced settings
 - Find Computer Name/Domain options 
 - Under Domain input the domain address, mydomain.com
@@ -154,15 +149,7 @@ Login to DC-1 and install Active Directory Domain Services:
 
 ![image](https://github.com/user-attachments/assets/6572d67c-f41d-4e61-a082-290d778832f5)
 
-
-
-
-<br><br><br><br>
-
-**Part 2**
-<br><br>
-
-**Setup Remote Desktop for non-administrative users on Client-1**
+### Setup Remote Desktop for non-administrative users on Client-1
 
 - Login to Client-1 as mydomain.com\jane_admin
 - Access System Properties
@@ -173,8 +160,7 @@ Login to DC-1 and install Active Directory Domain Services:
 ![image](https://github.com/user-attachments/assets/9abbcb67-29c5-43d2-ad48-52c23216c072)
 
 
-
-**Create a plethora of users and attempt to log into Client-1 with one of the users**
+### Create a plethora of users and attempt to log into Client-1 with one of the users
 
 - Log in to DC-1 as jane_admin
 - Utilize Powershell_ise as an administrator
@@ -183,9 +169,8 @@ Login to DC-1 and install Active Directory Domain Services:
 - When finished, open ADUC(Active Directory Users & Computers) and observe the content in the appropriate OU(Organizational Unit) (_EMPLOYEES)
 - Attempt to log into Client-1 with one of the accounts we generated
 
-<br><br>
 
-**Powershell_ise as an Administrator**
+### Powershell_ise as an Administrator
 ![image](https://github.com/user-attachments/assets/e101c903-73ee-4286-9bef-03e0f76d7463)
 
 **Powershell_ise(Integrated Scripting Environment)** is basically a graphical editor with powershell integrated into one unit. What makes it unique is that you run,save,edit, and configure scripts for more versatility.
